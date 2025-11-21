@@ -1,0 +1,140 @@
+ body {
+    width: 100%;
+    background-color: #db6249;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fredoka One', cursive;
+    overflow-x: hidden;
+}
+section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 400px;
+    padding-top: 100px;
+    background: #f4e3ca;
+}
+.curve {
+    position: absolute;
+    height: 250px;
+    width: 100%;
+    bottom: 0;
+}
+.curve::before,
+.curve::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 55%;
+    height: 100%;
+    border-radius: 100% 50%;
+}
+.curve::before {
+    background-color: #db6249;
+    transform: translate(85%, 60%);
+}
+.curve::after {
+    background-color: #f4e3ca;
+    transform: translate(-4%, 40%);
+    z-index: -1;
+}
+.content-game {
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    width: 500px;
+}
+.header-container {
+    background-color: #db6249;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#timer,
+#start-btn {
+    background-color: #f4e3ca;
+    border: 3px solid rgb(46, 61, 73);
+    border-radius: 8px;
+    font-size: 2rem;
+    color: rgb(46, 61, 73);
+    margin: 10px;
+    padding: 5px 15px;
+}
+#start-btn {
+    cursor: pointer;
+}
+#board {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    gap: 10px;
+    perspective: 1000px;
+    padding: 10px;
+    margin-left: 20px;
+}
+.card {
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+.card .front,
+.card .back {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    backface-visibility: hidden;
+    box-shadow: 5px 5px 0 rgba(0,0,0,.3);
+}
+.card .front {
+    background-color: #2e3d49;
+}
+.card .back {
+    background-color: #f4e3ca;
+    transform: rotateY(180deg);
+}
+.card.flipCard {
+    transform: rotateY(180deg);
+}
+.popup-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+.popup-box.modal--open {
+    display: flex;
+}
+.popup-box .content {
+    position: relative;
+    font-size: 4rem;
+    color: #f4e3ca;
+    text-align: center;
+    padding: 40px 60px;
+}
+#close-popup {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 3rem;
+    color: rgb(46, 61, 73);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+#close-popup:hover {
+    transform: scale(1.2);
+    color: #db6249;
+}
