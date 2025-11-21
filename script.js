@@ -45,7 +45,7 @@ function startTimer() {
             return;
         }
         second--;
-    }, 100);
+    }, 1000);
 }
 
 function checkForMatch() {
