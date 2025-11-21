@@ -16,7 +16,7 @@ let ModalBox = document.getElementById("popup-box"),
 
 
 function flipCard() {
-    if (!gameStarted) return;  // δεν γυρνάει η κάρτα αν δεν έχει πατηθεί το Start
+    if (!gameStarted) return;
     if (lockBoard) return;
     if (this === firstCard) return;
 
@@ -45,7 +45,7 @@ function startTimer() {
             return;
         }
         second--;
-    }, 1000);
+    }, 100);
 }
 
 function checkForMatch() {
@@ -107,7 +107,7 @@ function lose() {
 }
 
 function resetGame() {
-
+    gameStarted = false;
     matchCounter = 0;
     hasFlippedCard = false;
     lockBoard = false;
@@ -127,13 +127,14 @@ function resetGame() {
     });
 
     shuffle();
+
 }
 
 
 startBtn.addEventListener("click", () => {
     startTimer();
     document.querySelector('.header-container').classList.add('move-timer');
-    gameStarted = true; // επιτρέπει πλέον το flip
+    gameStarted = true;
 });
 
 

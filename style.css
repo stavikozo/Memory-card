@@ -128,7 +128,7 @@ section {
 #close-popup {
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px;
     font-size: 3rem;
     color: rgb(46, 61, 73);
     cursor: pointer;
