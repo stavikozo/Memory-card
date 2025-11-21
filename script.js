@@ -1,6 +1,6 @@
 const startBtn = document.getElementById("start-btn");
 const card = document.querySelectorAll(".card");
-
+let gameStarted = false;
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
@@ -16,6 +16,7 @@ let ModalBox = document.getElementById("popup-box"),
 
 
 function flipCard() {
+    if (!gameStarted) return;  // δεν γυρνάει η κάρτα αν δεν έχει πατηθεί το Start
     if (lockBoard) return;
     if (this === firstCard) return;
 
@@ -26,6 +27,7 @@ function flipCard() {
         firstCard = this;
         return;
     }
+
     secondCard = this;
     hasFlippedCard = false;
     checkForMatch();
@@ -131,7 +133,9 @@ function resetGame() {
 startBtn.addEventListener("click", () => {
     startTimer();
     document.querySelector('.header-container').classList.add('move-timer');
+    gameStarted = true; // επιτρέπει πλέον το flip
 });
+
 
 card.forEach(card => card.addEventListener('click', flipCard));
 
