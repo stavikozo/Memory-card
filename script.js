@@ -1,24 +1,20 @@
 const startBtn = document.getElementById("start-btn");
-const card = document.querySelectorAll(".card");
+const cards = document.querySelectorAll(".card");
+const timer = document.getElementById("timer");
+const ModalBox = document.getElementById("popup-box");
+const ClosePopUp = document.getElementById("close-popup");
+const ModalTitle = document.getElementById("modal-title");
+
 let gameStarted = false;
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
 let matchCounter = 0;
 let second = 60;
-let timer = document.getElementById("timer");
 let interval = null;
-let isPaused = false;
-let isLose = false;
-let ModalBox = document.getElementById("popup-box"),
-    ClosePopUp = document.getElementById("close-popup"),
-    ModalTitle = document.getElementById("modal-title");
-
 
 function flipCard() {
-    if (!gameStarted) return;
-    if (lockBoard) return;
-    if (this === firstCard) return;
+    if (!gameStarted || lockBoard || this === firstCard) return;
 
     this.classList.add('flipCard');
 
@@ -36,51 +32,39 @@ function flipCard() {
 function startTimer() {
     if (interval) return;
     interval = setInterval(() => {
-        timer.innerHTML = second + " secs";
-
+        timer.innerHTML = `${second} secs`;
         if (second === 0) {
             clearInterval(interval);
-            interval = null;
             lose();
-            return;
         }
         second--;
     }, 1000);
 }
 
 function checkForMatch() {
-    let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-    if (isMatch) {
-        matchCounter++;
-        disableCards();
-        if (matchCounter === 6) {
-            clearInterval(interval);
-            win();
-        }
-    }
-    else {
-        unflipCards();
-    }
+    const isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+    isMatch ? handleMatch() : unflipCards();
 }
 
-function disableCards() {
+function handleMatch() {
+    matchCounter++;
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
-
     resetBoard();
+
+    if (matchCounter === 6) {
+        clearInterval(interval);
+        win();
+    }
 }
 
 function unflipCards() {
     lockBoard = true;
     setTimeout(() => {
-
         firstCard.classList.remove('flipCard');
         secondCard.classList.remove('flipCard');
-        lockBoard = false;
         resetBoard();
-
-    },
-    1000);
+    }, 1000);
 }
 
 function resetBoard() {
@@ -88,20 +72,17 @@ function resetBoard() {
 }
 
 function shuffle() {
-    card.forEach(card => {
-        let cardOrder = Math.floor(Math.random() * 12);
-        card.style.order = cardOrder.toString();
+    cards.forEach(c => {
+        c.style.order = Math.floor(Math.random() * cards.length);
     });
 }
 
 function win() {
-    isPaused = true;
-    ModalTitle.innerHTML = 'You win! 🙌\n🎉';
+    ModalTitle.innerHTML = 'You win! 🙌🎉';
     ModalBox.classList.add('modal--open');
 }
 
 function lose() {
-    isLose = true;
     ModalTitle.innerHTML = 'You Lost! 😢';
     ModalBox.classList.add('modal--open');
 }
@@ -109,10 +90,7 @@ function lose() {
 function resetGame() {
     gameStarted = false;
     matchCounter = 0;
-    hasFlippedCard = false;
-    lockBoard = false;
-    firstCard = null;
-    secondCard = null;
+    resetBoard();
 
     clearInterval(interval);
     interval = null;
@@ -121,26 +99,20 @@ function resetGame() {
 
     ModalBox.classList.remove("modal--open");
 
-    card.forEach(c => {
+    cards.forEach(c => {
         c.classList.remove("flipCard");
         c.addEventListener("click", flipCard);
     });
-
+    timer.style.display='none';
     shuffle();
-
 }
-
 
 startBtn.addEventListener("click", () => {
     startTimer();
-    document.querySelector('.header-container').classList.add('move-timer');
     gameStarted = true;
+    timer.classList.add("animate");
+    timer.style.display='block';
 });
 
-
-card.forEach(card => card.addEventListener('click', flipCard));
-
-ClosePopUp.addEventListener('click', () => {
-    resetGame();
-});
-
+cards.forEach(c => c.addEventListener('click', flipCard));
+ClosePopUp.addEventListener('click', resetGame);

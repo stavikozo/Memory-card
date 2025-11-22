@@ -47,21 +47,47 @@ section {
 .header-container {
     background-color: #db6249;
     border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    position: relative;
 }
-#timer,
-#start-btn {
+#timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #f4e3ca;
     border: 3px solid rgb(46, 61, 73);
     border-radius: 8px;
-    font-size: 2rem;
+    font-size: 1.2rem;
+    color: rgb(46, 61, 73);
+    padding: 5px;
+    opacity: 0;
+}
+ #timer.animate {
+     animation: slideOut 1s forwards ease-in;
+ }
+ @keyframes slideOut {
+     from {
+         top: 50%;
+         left: 0;
+         transform: translate(-40%, -40%) scale(0.5);
+         opacity: 0;
+     }
+     to {
+         top: 50%;
+         left: 80%;
+         transform: translate(0, -50%) scale(1);
+         opacity: 1;
+     }
+ }
+ #start-btn {
+    background-color: #f4e3ca;
+    border: 3px solid rgb(46, 61, 73);
+    border-radius: 8px;
+    font-size: 1.5rem;
     color: rgb(46, 61, 73);
     margin: 10px;
-    padding: 5px 15px;
-}
-#start-btn {
+    padding: 5px;
     cursor: pointer;
 }
 #board {
@@ -80,7 +106,11 @@ section {
     width: 100px;
     height: 100px;
     margin: 5px;
+    scale: 1;
 }
+ .card:hover {
+    scale: 1.2;
+ }
 .card .front,
 .card .back {
     width: 100%;
